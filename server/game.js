@@ -1,5 +1,9 @@
 const EventEmitter = require('events');
 const util = require('util');
+var logger = require('tracer').console({
+    format : '{{timestamp}} <{{title}}> {{file}}:{{line}} {{message}}',
+    dateformat : 'yyyy-mm-dd HH:MM:ss.l'
+});
 
 function Game(fieldId, team1Id, team2Id) {
     this.fieldId = fieldId;
@@ -31,7 +35,7 @@ function Game(fieldId, team1Id, team2Id) {
         'kick-off': 'kick-off',
         'indirect-free-kick': 'indirect-free-kick',
         'direct-free-kick': 'direct-free-kick',
-        penalty: 'Penalty'
+        penalty: 'penalty'
     }
 }
 
