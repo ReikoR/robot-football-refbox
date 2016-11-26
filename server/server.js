@@ -33,6 +33,8 @@ io.on('connection', function (socket) {
         });
 
         game.on('serialSend', function (message) {
+            logger.log('serialSend', message);
+
             clearTimeout(lastMessageResendTimeout);
 
             robotAcksReceived.A = false;
@@ -239,6 +241,8 @@ function disconnectSerialPort(callback) {
 }
 
 function writeSerialPort(message, callback) {
+    logger.log('writeSerialPort', message);
+
     if (isSerialPortOpen()) {
         logger.log('send', message);
 
