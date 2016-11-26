@@ -571,7 +571,7 @@ Game.prototype.updateButtons = function () {
     switch (this.state) {
     case 'neutral':
         this.disableAllControls();
-        this.enableControls([], ['kick-off'], ['kick-off']);
+        this.enableControls([], ['kick-off', 'penalty-kick'], ['kick-off', 'penalty-kick']);
         break;
     case 'started':
         this.disableAllControls();
@@ -582,23 +582,23 @@ Game.prototype.updateButtons = function () {
         break;
     case 'placed-ball':
         this.disableAllControls();
-        this.enableControls(['start'], [], []);
+        this.enableControls(['start', 'stop'], [], []);
         break;
     case 'kick-off':
         this.disableAllControls();
-        this.enableControls(['start'], [], []);
+        this.enableControls(['start', 'stop'], [], []);
         break;
     case 'indirect-free-kick':
         this.disableAllControls();
-        this.enableControls(['start'], [], []);
+        this.enableControls(['start', 'stop'], [], []);
         break;
     case 'direct-free-kick':
         this.disableAllControls();
-        this.enableControls(['start'], [], []);
+        this.enableControls(['start', 'stop'], [], []);
         break;
     case 'penalty':
         this.disableAllControls();
-        this.enableControls(['start'], [], []);
+        this.enableControls(['start', 'stop'], [], []);
         break;
     }
 };
