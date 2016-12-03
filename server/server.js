@@ -171,9 +171,49 @@ function connectSerialPort(path, callback) {
     function connect() {
         logger.log('connecting', path);
 
+        var parser = function(length) {
+            var data = new Buffer(0);
+            var startByte = 'a'.charCodeAt(0);
+
+            return function(emitter, buffer) {
+                data = Buffer.concat([data, buffer]);
+
+                var i,
+                    startIndex = 0,
+                    out;
+
+                console.log(data.toString());
+
+                for (i = 0; i < data.length; i++) {
+                    if (data[i] === startByte) {
+                        //If startByte inside message, set message start to that byte
+                        if (i < startIndex + length - 1) {
+                            startIndex = i;
+                        }
+                    }
+
+                    if (startIndex + length <= data.length) {
+                        if (i == startIndex + length - 1) {
+                            out = data.slice(startIndex, startIndex + length);
+                            startIndex = i;
+                            emitter.emit('data', out);
+                        }
+                    } else {
+                        break;
+                    }
+                }
+
+                if (i == data.length) {
+                    data = new Buffer(0);
+                } else {
+                    data = data.slice(i);
+                }
+            };
+        };
+
         serialPort = new SerialPort(path, {
             baudrate: baudRate,
-            parser: SerialPort.parsers.byteLength(5)
+            parser: parser(5)
         });
 
         serialPort.on('open', function () {
